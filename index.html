@@ -13,7 +13,33 @@
 		<!--[if IE<9]>
 			<link rel="stylesheet" href="css/style.ie.css">
 		<![endif]-->
-	</head>
+        <script>
+            require([
+             "esri/config",
+              "esri/Map",
+              "esri/views/MapView"
+            ], function (esriConfig,Map, MapView) {
+            
+              esriConfig.apiKey = "AAPK57c9c0419b7e4175af24e0c0c5fb1bffwKKQXqN4x5_W8JB-j5Ld557Ud_BNAfTAvyoEcIx_tbOij8wIWYJYM6MxTGEELRv8";
+              const map = new Map({
+                basemap: "arcgis-topographic" // Basemap layer
+              });
+            
+              const view = new MapView({
+                map: map,
+                center: [-118.805, 34.027],
+                zoom: 13, // scale: 72223.819286
+                container: "viewDiv",
+                constraints: {
+                  snapToZoom: false
+                }
+              });
+            
+            });
+            </script>
+    
+    
+    </head>
 
 	<body>
         
