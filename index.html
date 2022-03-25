@@ -10,9 +10,14 @@
 		<link rel="stylesheet" href="css/style.css">
 	
 		
-		<!--[if IE<9]>
-			<link rel="stylesheet" href="css/style.ie.css">
-		<![endif]-->
+        <link rel="stylesheet" href="css/style.ie.css">
+		<!--[endif]-->
+        <!--[if IE<9]-->
+        <!--links to javascript files, libraries and esri plugin-->
+        <script src="https://js.arcgis.com/4.23/"></script>
+        
+        
+            <script type="text/javascript" src="js/main.js"></script>
         <script>
             require([
              "esri/config",
@@ -44,15 +49,10 @@
 	<body>
         
 
-		<div id="mapid"></div>
+		<div id="viewDiv"></div>
 		
 
 
-	   <!--links to javascript files, libraries and esri plugin-->
-       <script src="https://js.arcgis.com/4.23/"></script>
-
-
-	   <script type="text/javascript" src="js/main.js"></script>
 	   
    </body>
 </html>
