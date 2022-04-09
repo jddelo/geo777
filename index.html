@@ -112,7 +112,8 @@
             "esri/widgets/ScaleBar",
             "esri/widgets/BasemapGallery",
             "esri/widgets/Editor",
-            "esri/widgets/support/SnappingControls"
+            "esri/widgets/support/SnappingControls",
+            "esri/widgets/Track"
           ], (esriConfig,
               Map, 
               MapView, 
@@ -124,7 +125,8 @@
               ScaleBar,
               BasemapGallery,
               Editor,
-              SnappingControls
+              SnappingControls,
+              Track
 
           )=> {
             
@@ -213,6 +215,9 @@
                   
                 }
               });
+              let trackWidget = new Track({
+                view:view
+              });
               // const snappingControls = new SnappingControls({
               //   view: view,
               //   visible: Fals
@@ -223,6 +228,7 @@
             view.ui.add(scaleBar, {
               position: "bottom-left"
             });
+            view.ui.add(trackWidget, "top-left");
 
 
             });
@@ -234,7 +240,7 @@
           
           });
 
-          document.querySelectorAll("content-wrapper content-container").forEach(node => node.shadowRoot.querySelector(".esri-editor__panel-content--section").style.setProperty("background-color", "#0f3c4c;"));
+          document.querySelectorAll("heading").forEach(node => node.shadowRoot.querySelector(".heading").style.setProperty("background-color", "#0f3c4c;"));
         
         </script>
     
