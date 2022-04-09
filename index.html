@@ -28,6 +28,9 @@
       .esri-widget__heading{
         display:none;
       }
+      .esri-editor__panel-content{
+        background-color: #0f3c4c;
+      }
       .esri-editor__panel-toolbar__snapping-button{
         display: none;
       }
@@ -40,10 +43,17 @@
       .esri-layer-list__item--invisible-at-scale .esri-layer-list__item-title {
         color: gray;
       }
-
-      
+      .esri-basemap-gallery__item-title{
+        color: white;
+      }
+      .esri-editor{
+        initial-value: "TEST";
+      }
       .esri-layer-list__item-title {
         font-size:smaller;
+      }
+      #editwin{
+        background-color: #0f3c4c;
       }
       .layerListText {
         font: white;
@@ -203,11 +213,11 @@
                   
                 }
               });
-              const snappingControls = new SnappingControls({
-                view: view,
-                visible: False
+              // const snappingControls = new SnappingControls({
+              //   view: view,
+              //   visible: Fals
 
-              })
+              // })
             view.ui.add(compass, "top-left");
             view.ui.add(locateWidget, "top-left");
             view.ui.add(scaleBar, {
@@ -224,7 +234,7 @@
           
           });
 
-
+          document.querySelectorAll("content-wrapper content-container").forEach(node => node.shadowRoot.querySelector(".esri-editor__panel-content--section").style.setProperty("background-color", "#0f3c4c;"));
         
         </script>
     
