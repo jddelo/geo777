@@ -107,7 +107,6 @@
             "esri/layers/FeatureLayer",
             "esri/widgets/LayerList",
             "esri/widgets/Compass",
-            "esri/widgets/Locate",
             "esri/Graphic",
             "esri/widgets/ScaleBar",
             "esri/widgets/BasemapGallery",
@@ -120,7 +119,6 @@
               FeatureLayer,
               LayerList,
               Compass,
-              Locate,
               Graphic,
               ScaleBar,
               BasemapGallery,
@@ -188,12 +186,8 @@
               const compass = new Compass({
                 view:view,
               })
-              let locateWidget = new Locate({
-                view: view,
-                graphic: new Graphic({
-                  symbol: {type: "simple-marker"}
-                })
-              });
+
+
               let scaleBar = new ScaleBar({
                 view: view,
                 style: "ruler"
@@ -224,7 +218,6 @@
 
               // })
             view.ui.add(compass, "top-left");
-            view.ui.add(locateWidget, "top-left");
             view.ui.add(scaleBar, {
               position: "bottom-left"
             });
