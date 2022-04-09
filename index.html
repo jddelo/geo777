@@ -22,6 +22,21 @@
       .dropdown-menu{
         color:white;
       }
+      .esri-editor__snapping-controls-popover{
+        display: none;
+      }
+      .esri-widget__heading{
+        display:none;
+      }
+      .esri-editor__panel-toolbar__snapping-button{
+        display: none;
+      }
+      .esri-editor__update-features-action-buttons--button{
+        display: none;
+      }
+      .esri-item-list__filter-container--sticky{
+        display: none;
+      }
       .esri-layer-list__item--invisible-at-scale .esri-layer-list__item-title {
         color: gray;
       }
@@ -59,6 +74,10 @@
         padding: 3px;
         background-color: #0f3c4c;
       }
+      #bmapgall {
+        padding: 3px;
+        background-color: #0f3c4c;
+      }
       /* #main {
         flex-wrap: nowrap;
       } */
@@ -80,7 +99,10 @@
             "esri/widgets/Compass",
             "esri/widgets/Locate",
             "esri/Graphic",
-            "esri/widgets/ScaleBar"
+            "esri/widgets/ScaleBar",
+            "esri/widgets/BasemapGallery",
+            "esri/widgets/Editor",
+            "esri/widgets/support/SnappingControls"
           ], (esriConfig,
               Map, 
               MapView, 
@@ -89,13 +111,16 @@
               Compass,
               Locate,
               Graphic,
-              ScaleBar
+              ScaleBar,
+              BasemapGallery,
+              Editor,
+              SnappingControls
 
           )=> {
             
             esriConfig.apiKey = "AAPK57c9c0419b7e4175af24e0c0c5fb1bffwKKQXqN4x5_W8JB-j5Ld557Ud_BNAfTAvyoEcIx_tbOij8wIWYJYM6MxTGEELRv8";
             const map = new Map({
-              basemap: "arcgis-topographic" // Basemap layer
+              basemap: "arcgis-imagery" // Basemap layer
             });
 
             
@@ -161,11 +186,35 @@
                 view: view,
                 style: "ruler"
               });
+              const bmapgallery = new BasemapGallery({
+                source: {
+                  query: {
+                    id: 'faf61a2a0080417f8c1b49d49eb11d35'
+                  }
+                },
+                view: view,
+                container: bmapgall
+              })
+              const editor = new Editor({
+                view:view,
+                container: editwin,
+                headingLevel: 6,
+                snappingOptions: {
+                  
+                }
+              });
+              const snappingControls = new SnappingControls({
+                view: view,
+                visible: False
+
+              })
             view.ui.add(compass, "top-left");
-            view.ui.add(locateWidget, "top-left")
+            view.ui.add(locateWidget, "top-left");
             view.ui.add(scaleBar, {
               position: "bottom-left"
-            })
+            });
+
+
             });
           
           
@@ -193,26 +242,16 @@
           Layers
         </button>
         <ul class="dropdown-menu" id="layerlist" aria-labelledby="dropdownMenuButton1">
-          <!-- <li>  <input class="form-check-input" type="checkbox" value="" id="boat_launches_check">
-            <label class="form-check-label layerListText" for="flexCheckDefault">
-              Boat Launches
-            </label></li>
-          <li><input class="form-check-input" type="checkbox" value="" id="parking_check">
-            <label class="form-check-label layerListText" for="flexCheckDefault">
-              Parking/Access
-            </label></li>
-          <li><input class="form-check-input" type="checkbox" value="" id="comfort_check">
-            <label class="form-check-label layerListText" for="flexCheckDefault">
-              Comfort Stations
-            </label></li>
-          <li><input class="form-check-input" type="checkbox" value="" id="pavilion_check">
-            <label class="form-check-label layerListText" for="flexCheckDefault">
-              Pavilions
-            </label></li>
-          <li><input class="form-check-input" type="checkbox" value="" id="park_boundary_check">
-            <label class="form-check-label layerListText" for="flexCheckDefault">
-              Park Boundary
-            </label></li> -->
+        </ul>
+        <button class="btn btn-secondary dropdown-toggle tbuttons" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Basemaps
+        </button>
+        <ul class="dropdown-menu" id="bmapgall" aria-labelledby="dropdownMenuButton1">
+        </ul>
+        <button class="btn btn-secondary dropdown-toggle tbuttons" type="button" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
+          Create Hazard ID
+        </button>
+        <ul class="dropdown-menu" id="editwin" aria-labelledby="dropdownMenuButton1">
         </ul>
         </div>
       <div class="col-sm-10" id="viewDiv">
