@@ -28,39 +28,37 @@
       .dropdown-menu{
         color:white;
       }
-      .esri-editor__snapping-controls-popover{
+      /* .esri-editor__snapping-controls-popover{
         display: none;
-      }
-      .esri-widget__heading{
+      } */
+      /* .esri-widget__heading{
         display:none;
-      }
+      } */
       .esri-editor__panel-content{
         background-color: #0f3c4c;
       }
-      .esri-editor__panel-toolbar__snapping-button{
+      /* .esri-editor__panel-toolbar__snapping-button{
         display: none;
-      }
-      .esri-editor__update-features-action-buttons--button{
-        display: none;
-      }
+      } */
+      /* .esri-editor__update-features-action-buttons--button{
+        display: none; 
+      } */
       .esri-legend__service{
         background-color: #0f3c4c;
       }
       .esri-legend__layer-cell .esri-legend__layer-cell--info{
         color: white;
       }
-      .esri-item-list__filter-container--sticky{
+      /* .esri-item-list__filter-container--sticky{
         display: none;
-      }
+      } */
       .esri-layer-list__item--invisible-at-scale .esri-layer-list__item-title {
         color: gray;
       }
       .esri-basemap-gallery__item-title{
         color: white;
       }
-      .esri-editor{
-        initial-value: "TEST";
-      }
+
       .esri-layer-list__item-title {
         font-size:smaller;
       }
@@ -104,9 +102,7 @@
         padding: 3px;
         background-color: #0f3c4c;
       }
-      /* #main {
-        flex-wrap: nowrap;
-      } */
+
       </style>
 
 <script type="text/javascript" src="js/main.js"></script>
@@ -129,7 +125,8 @@
             "esri/widgets/Editor",
             "esri/widgets/support/SnappingControls",
             "esri/widgets/Track",
-            "esri/widgets/Legend"
+            "esri/widgets/Legend",
+            "esri/widgets/Attachments"
           ], (esriConfig,
               Map, 
               MapView, 
@@ -142,7 +139,8 @@
               Editor,
               SnappingControls,
               Track,
-              Legend
+              Legend,
+              Attachments
 
           )=> {
             
@@ -222,11 +220,9 @@
               })
               const editor = new Editor({
                 view:view,
-                container: editwin,
+                
                 headingLevel: 6,
-                snappingOptions: {
-                  
-                }
+                allowAttachments: true,
               });
               let trackWidget = new Track({
                 view:view
@@ -246,6 +242,9 @@
               position: "bottom-left"
             });
             view.ui.add(trackWidget, "top-left");
+            view.ui.add(editor, {
+              position: "top-right"
+            });
 
 
             });
