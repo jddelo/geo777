@@ -16,6 +16,8 @@
       .dropdown-menu{
         max-height: 50vh;
         overflow-y:scroll;
+        background-color: #0f3c4c;
+        
       }
 
       .esri-layer-list__item {
@@ -28,30 +30,42 @@
       .dropdown-menu{
         color:white;
       }
-      /* .esri-editor__snapping-controls-popover{
+      .esri-editor__snapping-controls-popover{
         display: none;
-      } */
-      /* .esri-widget__heading{
+      }
+      .esri-widget__heading{
         display:none;
-      } */
+      }
+      .esri-popup__header-title{
+        border-radius: 2px;
+        font-size: 14px;
+        padding: 6px 7px;
+        margin: 6px auto 6px 7px;
+        display: block;
+        transition: background-color 125ms ease-in-out;
+        white-space: pre-wrap;
+        word-break: break-all;
+        word-wrap: break-word;
+        word-break: break-word;
+      }
       .esri-editor__panel-content{
         background-color: #0f3c4c;
       }
-      /* .esri-editor__panel-toolbar__snapping-button{
+      .esri-editor__panel-toolbar__snapping-button{
         display: none;
-      } */
-      /* .esri-editor__update-features-action-buttons--button{
+      }
+      .esri-editor__update-features-action-buttons--button{
         display: none; 
-      } */
+      }
       .esri-legend__service{
         background-color: #0f3c4c;
       }
       .esri-legend__layer-cell .esri-legend__layer-cell--info{
         color: white;
       }
-      /* .esri-item-list__filter-container--sticky{
+      .esri-item-list__filter-container--sticky{
         display: none;
-      } */
+      }
       .esri-layer-list__item--invisible-at-scale .esri-layer-list__item-title {
         color: gray;
       }
@@ -87,11 +101,13 @@
 
       #main{
         max-height: 100vh;
+
       }
       
       #viewDiv {
         flex-grow: 1;
         min-height: 90vh;
+        padding: 0px;
 
       }
       #layerlist {
@@ -126,7 +142,10 @@
             "esri/widgets/support/SnappingControls",
             "esri/widgets/Track",
             "esri/widgets/Legend",
-            "esri/widgets/Attachments"
+            "esri/widgets/Attachments",
+            "esri/widgets/Popup",
+            "esri/popup/content/AttachmentsContent",
+            "esri/PopupTemplate"
           ], (esriConfig,
               Map, 
               MapView, 
@@ -140,7 +159,10 @@
               SnappingControls,
               Track,
               Legend,
-              Attachments
+              Attachments,
+              Popup,
+              AttachmentsContent,
+              PopupTemplate
 
           )=> {
             
@@ -153,47 +175,120 @@
             const view = new MapView({
               map: map,
               center: [-76.06143, 40.39518],
-              zoom: 15, // scale: 72223.819286
+              zoom: 12, // scale: 72223.819286
               container: "viewDiv",
               constraints: {
                 snapToZoom: false
               }
             });
-            
+
+            const pavillion_template = {
+              title: "Pavillion",
+              content: "<b>{Name}</b> has {Amenities}"
+            };            
+            const comfort_template = {
+              title: "{Type}",
+              content: "{Type}<br>{Notes}"
+            };
+            // let attachmentsElement = new AttachmentsContent({
+            //   displayType: "list"
+            // });
+            const parking_template = {
+              title: "{Access_Name}",
+              content: [{
+                type: "text",
+                text: "{Access_Name}<br>{Lot_Type}<br>{Photos And Files}"
+              },
+              {
+                type: "attachments"
+              }
+            ]
+            };
+            const hazard_template={
+              title: "Hazard ID",
+              content: [{
+                type: "text",
+                text: "Severity of Issue: {Severity}<br>Description: {Description}<br>Date: {Date_Discovered}"
+              },
+              {
+                type: "attachments"
+              }      
+              ]
+            };
+            const boat_Template = {
+              title: "{Launch_nam}",
+              content: "<b>{Launch_nam}</b><br>{RampType}"
+            }
+            const trail_Template ={
+              fieldInfos: [{
+                fieldName: "Length_2D_",
+                format: {
+                  places: 0,
+                  digitSeparator: true
+                }
+              }],
+              title: "{Name}",
+              content:[{
+                type: "text",
+                text: "<b>{Name}</b><br>Length(ft): {Length_2D_}<br>Length(mi): {Length_2D1}<br>Hiking: {Hiking}<br>Biking: {Biking}<br>Equestrian: {Equestrian}"
+              },
+              {
+                type: "attachments"
+              }      
+              ]
+            }
+
             const pavilions = new FeatureLayer({
-              url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Pavilions/FeatureServer"
+              url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Pavilions/FeatureServer",
+              popupEnabled: true,
+              popupTemplate: pavillion_template
             })
             const boatLaunches = new FeatureLayer({
-              url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Boat_Launches/FeatureServer"
+              url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Boat_Launches/FeatureServer",
+              popupEnabled: true,
+              popupTemplate: boat_Template
             })
             const parkingAccess = new FeatureLayer({
-              url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Access_Areas/FeatureServer"
+              //url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Access_Areas/FeatureServer",
+              //url: "https://services8.arcgis.com/R2mmnJyOCua9OAMW/arcgis/rest/services/AccessAreas/FeatureServer",
+              url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Access_Areas_JDD/FeatureServer",
+              popupEnabled: true,
+              popupTemplate: parking_template,
+              minScale: 30000
             })
             const comfortStations = new FeatureLayer({
-              url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Comfort_Stations_JD/FeatureServer"
+              url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Comfort_Stations_JD/FeatureServer",
+              popupEnabled: true,
+              popupTemplate: comfort_template,
+              minScale: 30000
             })
             const bml_boundary = new FeatureLayer({
               url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/BML_Boundary/FeatureServer/1"
             })
             const hazard_ids = new FeatureLayer({
-              url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hazard_ID/FeatureServer"
+              url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Hazard_ID/FeatureServer",
+              popupEnabled: true,
+              popupTemplate: hazard_template
             })
             const bml_trails = new FeatureLayer({
-              url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/BML_Trails/FeatureServer"
+              url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/BML_Trails/FeatureServer",
+              popupEnabled: true,
+              popupTemplate: trail_Template
+
             })
             const bml_trail_mile_Markers = new FeatureLayer({
               url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/BML_Trail_Mile_Markers/FeatureServer"
             })
 
 
-            map.add(pavilions);
-            map.add(boatLaunches);
-            map.add(parkingAccess);
-            map.add(comfortStations);
             map.add(bml_boundary);
-            map.add(hazard_ids);
             map.add(bml_trails);
             map.add(bml_trail_mile_Markers);
+            map.add(boatLaunches);
+            map.add(pavilions);
+            map.add(parkingAccess);
+            map.add(comfortStations);
+            map.add(hazard_ids);
 
             view.when(() => {
               const layerList = new LayerList({
@@ -220,6 +315,7 @@
               })
               const editor = new Editor({
                 view:view,
+                container: editwin,
                 
                 headingLevel: 6,
                 allowAttachments: true,
@@ -242,9 +338,9 @@
               position: "bottom-left"
             });
             view.ui.add(trackWidget, "top-left");
-            view.ui.add(editor, {
-              position: "top-right"
-            });
+            view.popup.collapseEnabled = false;
+
+
 
 
             });
@@ -268,7 +364,9 @@
     
     <div class = container-fluid id="main">
       <div class="row">
-      <div class="col-sm-2 order-sm-first order-last" id="tools">
+      <div class="col-sm-4 order-sm-first order-last" id="tools">
+        
+        <div class="d-none d-sm-block btn-group-vertical">
         <button class="btn btn-secondary dropdown-toggle tbuttons" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           Layers
         </button>
@@ -277,36 +375,34 @@
 
         
         <div class="btn-group dropup">
-          <button type="button" class="d-block d-sm-none btn btn-secondary dropdown-toggle tbuttons" data-bs-auto-close="false" data-bs-toggle="dropdown" aria-expanded="false">
+          <button type="button" class="d-block d-sm-none btn btn-secondary dropdown-toggle tbuttons" data-bs-toggle="dropdown" aria-expanded="false">
             Legend
           </button>
           <ul class="dropdown-menu" id="otherlegendmenu">
           </ul>
         </div>
-
-
-
         
-        
-        
-        
-        <button class="d-none d-sm-block btn btn-secondary dropdown-toggle tbuttons" type="button" data-bs-auto-close="false" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="d-none d-sm-block btn btn-secondary dropdown-toggle tbuttons" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           Legend
         </button>
         <ul class="dropdown-menu" id="legendmenu" aria-labelledby="dropdownMenuButton1">
         </ul>
+
         <button class="btn btn-secondary dropdown-toggle tbuttons" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           Basemaps
         </button>
         <ul class="dropdown-menu" id="bmapgall" aria-labelledby="dropdownMenuButton1">
         </ul>
+
         <button class="btn btn-secondary dropdown-toggle tbuttons" type="button" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
           Create Hazard ID
         </button>
         <ul class="dropdown-menu" id="editwin" aria-labelledby="dropdownMenuButton1">
         </ul>
-        </div>
-      <div class="col-sm-10" id="viewDiv">
+
+      </div>
+    </div>
+      <div class="col-sm-8" id="viewDiv">
       </div>
       </div>
     </div>
