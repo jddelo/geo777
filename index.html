@@ -114,7 +114,14 @@
 
 
       }
-
+      #header {
+        background-color: #071e26;
+        text-align: center;
+        height: 40px;
+        color: white;
+        font-size: medium;
+        width: 100vw;
+      }
       #main{
         max-height: 100vh;
 
@@ -138,7 +145,7 @@
       @media (min-width: 576px){
         #tools{
           max-width: 240px;
-          text-align: left;
+          text-align: center;
         }
         .tbuttons {
           width: 210px;
@@ -392,10 +399,6 @@
               headingLevel: 6
             });
 
-            const otherlegend = new Legend({
-              view: view,
-              container: otherlegendmenu
-            });
 
             const bookmarks = new Bookmarks({
               view:view,
@@ -465,6 +468,8 @@
     
     
     <div class = container-fluid id="main">
+      <div class="row align-items-center" id="header">
+        <div class="col-12">USACE Blue Marsh Lake Recreation Guide</div></div>
       <div class="row">
       <div class="col-sm-5 order-sm-first order-last text-center" id="tools">
 
