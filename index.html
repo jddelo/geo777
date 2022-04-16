@@ -41,6 +41,7 @@
         display: none;
       }
 
+
       .esri-editor__message{
         color: white;
       }
@@ -137,12 +138,16 @@
       @media (min-width: 576px){
         #tools{
           max-width: 240px;
-          text-align: center;
+          text-align: left;
         }
         .tbuttons {
           width: 210px;
         }
+        #mobileonly{
+          display: hidden;
+        }
       }
+
       </style>
 
 <script type="text/javascript" src="js/main.js"></script>
@@ -466,7 +471,7 @@
 
         
         
-        <button class="btn btn-secondary dropdown-toggle tbuttons" type="button" display: inline-block data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-secondary dropdown-toggle tbuttons" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <img class= "d-block d-sm-none" height= "20px" width ="20px" src="./img/pins-16_white.svg">
           <span class="d-none d-sm-block"><img height= "20px" width ="20px" src="./img/pins-16_white.svg">&emsp;Places of Interest</span>
         </button>
@@ -490,20 +495,7 @@
         <ul class="dropdown-menu dropdown-menu-end" id="layerlist" aria-labelledby="dropdownMenuButton1">
         </ul>
         
-        <div class="btn-group dropup">
-          <button type="button" class="d-block d-sm-none btn btn-secondary dropdown-toggle tbuttons" data-bs-toggle="dropdown" aria-expanded="false">
-            <img height= "20px" width ="20px" src="./img/legend-24_white.svg">
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end" id="otherlegendmenu">
-          </ul>
-        </div>
-        
-        <button class="d-none d-sm-block btn btn-secondary dropdown-toggle tbuttons" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <img class= "d-block d-sm-none" height= "20px" width ="20px" src="./img/legend-24_white.svg">
-          <span class="d-none d-sm-block"><img height= "20px" width ="20px" src="./img/legend-24_white.svg">&emsp;Legend</span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end" id="legendmenu" aria-labelledby="dropdownMenuButton1">
-        </ul>
+
 
         <button class="btn btn-secondary dropdown-toggle tbuttons" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <img class= "d-block d-sm-none" height= "20px" width ="20px" src="./img/basemap-24_white.svg">
@@ -516,11 +508,25 @@
           <img class= "d-block d-sm-none" height= "20px" width ="20px" src="./img/edit-attributes-24_white.svg">
           <span class="d-none d-sm-block"><img height= "20px" width ="20px" src="./img/edit-attributes-24_white.svg">&emsp;Create Hazard ID</span>
         </button>
-        <ul class="dropdown-menu dropdown-menu-end" id="editwin" aria-labelledby="dropdownMenuButton1">
+        <ul class="dropdown-menu dropdown-menu-start" id="editwin" aria-labelledby="dropdownMenuButton1">
         </ul>
 
-      
-
+        
+        <button class="btn btn-secondary dropdown-toggle tbuttons" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <img class= "d-block d-sm-none" height= "20px" width ="20px" src="./img/legend-24_white.svg">
+          <span class="d-none d-sm-block"><img height= "20px" width ="20px" src="./img/legend-24_white.svg">&emsp;Legend</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" id="legendmenu" aria-labelledby="dropdownMenuButton1">
+        </ul>
+        
+        <!-- <div class="btn-group dropup" id="mobileonly">
+          <button type="button" class="btn btn-secondary dropdown-toggle tbuttons" data-bs-toggle="dropdown" aria-expanded="false" >
+          <img class= "d-block d-sm-none" height= "20px" width ="20px" src="./img/legend-24_white.svg">
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" id="otherlegendmenu">
+          </ul>
+        </div> -->
+        
       
     </div>
       <div class="col-sm-7"id="viewDiv">
