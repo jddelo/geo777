@@ -109,7 +109,7 @@
 
       #tools {
         flex-grow: 1;
-        min-height: 10vh;
+        min-height: 10%;
         background-color: #071e26;
 
 
@@ -123,7 +123,9 @@
         width: 100vw;
       }
       #main{
-        max-height: 100vh;
+        /* max-height: 100vh; */
+        height: 100vh;
+        height: calc(var(--vh, 1vh)*100);
 
       }
       
@@ -164,6 +166,12 @@
 
 
         <script>
+          
+          window.addEventListener('resize', () => {
+            let vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', '${vh}px');
+            
+          });
           require([
             "esri/config",
             "esri/Map",
